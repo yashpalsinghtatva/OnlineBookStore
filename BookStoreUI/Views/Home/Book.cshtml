@@ -1,0 +1,272 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<h1>Index</h1>*@
+<p>
+    <button id="btnOpenAddBookModal" class="btn btn-primary">Add New Book</button>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+            Book Id
+        </th>*@
+            <th>
+                Book Title
+            </th>
+            <th>
+                Book Desc
+            </th>
+            <th>
+                Book Price($)
+            </th>
+            <th>
+                Author Name
+            </th>
+            <th>
+                Book ISBN
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="dvBody">
+    </tbody>
+</table>
+
+<div id="BookModel" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Book Details</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <input type="hidden" id="hdnBookId" />
+                            <label for="BookTitle" class="control-label col-md-5">Book Title</label>
+                            <div class="col-md-7">
+                                <input type="text" id="txtBookTitle" class="form-control" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BookDesc" class="control-label col-md-5">Book Desc</label>
+                            <div class="col-md-7">
+                                <input type="text" id="txtBookDesc" class="form-control" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="BookPrice" class="control-label col-md-5">Book Price</label>
+                            <div class="col-md-7">
+                                <input type="number" id="txtBookPrice" class="form-control" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BookTitle" class="control-label col-md-5">Author Name</label>
+                            <div class="col-md-7">
+                                <select id="ddlAuthorName"  class="form-control"> </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="BookTitle" class="control-label col-md-5">ISBN</label>
+                            <div class="col-md-7">
+                                <input type="text" id="txtBookISBN" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="button" id="btnAddBook" value="Add" class="btn btn-success" />
+                </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/js/Global.js"></script>
+<script>
+    $(document).ready(function () {
+
+        getAllBooks();
+        getAllAuthors();
+        $("#btnOpenAddBookModal").click(function () {
+            $("#btnAddBook").val("Add");
+            $("#BookModel").modal('show');
+            clearModal();
+        });
+
+        $("#btnAddBook").click(function () {
+            var Book = {
+                "BookTitle": $("#txtBookTitle").val(),
+                "BookDescription": $("#txtBookDesc").val(),
+                "BookPrice": Number($("#txtBookPrice").val()),
+                "AuthorId": parseInt($("#ddlAuthorName").val()),
+                "ISBN": $("#txtBookISBN").val()
+
+            };
+            let methodType = "";
+            let url = "";
+            let BookId = $("#hdnBookId").val();
+            if (BookId != null && BookId != '') {
+                methodType = "PUT";
+                url = ServiceUrl + "api/Book/" + BookId;
+
+            } else {
+                methodType = "POST";
+                url = ServiceUrl + "api/Book";
+
+            }
+            var BookJson = JSON.stringify(Book);
+            $.ajax({
+                url: url,
+                type: methodType,
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                data: BookJson,
+                success: function (data) {
+                    try {
+                        debugger;
+                        getAllBooks();
+                        $("#BookModel").modal('hide');
+                        clearModal();
+                    } catch (e) {
+                        alert("Error after adding Book" + e.message);
+                    }
+                },
+                error: function (e) {
+                    alert("Error in adding Book " + e.message);
+                    console.log(e);
+                },
+
+            });
+        })
+    });
+    function getAllBooks() {
+        $.ajax({
+            type: "GET",
+            url: ServiceUrl + "api/Book",
+            data: "{}",
+            success: function (data) {
+                try {
+                    $("#dvBody").empty();
+                    var dvRecord = "";
+                    for (let i = 0; i < data.length; i++) {
+                        dvRecord += addRecordToAuthorTable(data[i]);
+                    }
+                    $("#dvBody").append(dvRecord);
+                } catch (e) {
+                    alert("Error in Storing Authors In table" + e.message);
+
+                }
+            },
+            error: function (request, status, errorThrown) {
+                alert("Error in getting all Authors");
+            }
+
+        });
+
+    }
+    function addRecordToAuthorTable(record) {
+        let authorRecord = "";
+        authorRecord += "<tr>";
+        //authorRecord += "<td>" + record.authorId + "</td>";
+        authorRecord += "<td>" + record.bookTitle + "</td>";
+        authorRecord += "<td>" + record.bookDescription + "</td>";
+        authorRecord += "<td>" + record.bookPrice + "</td>";
+        authorRecord += "<td>" + record.author.authorName + "</td>";
+        authorRecord += "<td>" + record.isbn + "</td>";
+        authorRecord += "<td> <a href='#' onClick='OpenEditBookModal(" + record.bookId + ")' >Edit</a> | <a href='#' onClick='DeleteBook(" + record.bookId + ")' >Delete</a> </td>";
+        authorRecord += "</tr>";
+
+        return authorRecord;
+
+    }
+    function OpenEditBookModal(bookId) {
+        $.ajax({
+            type: "GET",
+            url: ServiceUrl + "api/Book/" + bookId,
+            data: "{}",
+
+            success: function (data) {
+                try {
+                    $("#hdnBookId").val(data.bookId);
+                    $("#txtBookTitle").val(data.bookTitle);
+                    $("#txtBookDesc").val(data.bookDescription);
+                    $("#txtBookPrice").val(data.bookPrice);
+                    $("#txtBookISBN").val(data.isbn);
+                    $("#ddlAuthorName").val(data.author.authorId);
+                    $("#btnAddBook").val("Edit");
+                    $("#BookModel").modal('show');
+                } catch (e) {
+                    alert("Error in Getting Book Details" + e.message);
+
+                }
+            },
+            error: function (request, status, errorThrown) {
+                alert("Error in getting current Book");
+            }
+
+        });
+
+    }
+    function DeleteBook(bookId) {
+        $.ajax({
+            type: "DELETE",
+            url: ServiceUrl + "api/Book/" + bookId,
+            data: "{}",
+            success: function (data) {
+                try {
+                    getAllBooks();
+                } catch (e) {
+                    alert("Error After Deleting Book" + e.message);
+
+                }
+            },
+            error: function (request, status, errorThrown) {
+                alert("Error in Deleting Book");
+            }
+
+        });
+
+    }
+    function clearModal() {
+        $("#hdnBookId").val("");
+        $("#txtBookTitle").val(""),
+        $("#txtBookDesc").val(""),
+        $("#txtBookPrice").val(""),
+        $("#ddlAuthorName").prop('selectedIndex', 0),
+        $("#txtBookISBN").val("")
+
+    }
+    function getAllAuthors() {
+        $.ajax({
+            type: "GET",
+            url: ServiceUrl + "api/Author",
+            data: "{}",
+            success: function (data) {
+                try {
+                    let option = "";
+                    for (let i = 0; i < data.length; i++) {
+                        option += '<option value="' + data[i].authorId + '">' + data[i].authorName + '</option>';
+                    }
+                    $("#ddlAuthorName").html(option);
+                } catch (e) {
+                    alert("Error in filling Authors In Dropdown" + e.message);
+                }
+            },
+            error: function (request, status, errorThrown) {
+                alert("Error in getting all Authors");
+            }
+
+        });
+
+    }
+</script>
