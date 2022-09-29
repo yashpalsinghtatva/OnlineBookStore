@@ -28,6 +28,10 @@
             <th>
                 Book ISBN
             </th>
+            <th>
+                Book Image
+            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -67,7 +71,7 @@
                         <div class="form-group">
                             <label for="BookTitle" class="control-label col-md-5">Author Name</label>
                             <div class="col-md-7">
-                                <select id="ddlAuthorName"  class="form-control"> </select>
+                                <select id="ddlAuthorName" class="form-control"> </select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -76,6 +80,13 @@
                                 <input type="text" id="txtBookISBN" class="form-control" required />
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="BookTitle" class="control-label col-md-5">Book Image</label>
+                            <div class="col-md-7">
+                                <input type="file" id="imgBook" name="filename">
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -104,14 +115,21 @@
         });
 
         $("#btnAddBook").click(function () {
-            var Book = {
-                "BookTitle": $("#txtBookTitle").val(),
-                "BookDescription": $("#txtBookDesc").val(),
-                "BookPrice": Number($("#txtBookPrice").val()),
-                "AuthorId": parseInt($("#ddlAuthorName").val()),
-                "ISBN": $("#txtBookISBN").val()
+            //var Book = {
+            //    "BookTitle": $("#txtBookTitle").val(),
+            //    "BookDescription": $("#txtBookDesc").val(),
+            //    "BookPrice": Number($("#txtBookPrice").val()),
+            //    "AuthorId": parseInt($("#ddlAuthorName").val()),
+            //    "ISBN": $("#txtBookISBN").val()
 
-            };
+            //};
+            let formData = new FormData();
+            formData.append("BookImage", $('#imgBook').prop('files')[0]);
+            formData.append("BookTitle", $("#txtBookTitle").val());
+            formData.append("BookDescription", $("#txtBookDesc").val());
+            formData.append("BookPrice", Number($("#txtBookPrice").val()));
+            formData.append("AuthorId", parseInt($("#ddlAuthorName").val()));
+            formData.append("ISBN", $("#txtBookISBN").val());
             let methodType = "";
             let url = "";
             let BookId = $("#hdnBookId").val();
@@ -124,13 +142,15 @@
                 url = ServiceUrl + "api/Book";
 
             }
-            var BookJson = JSON.stringify(Book);
+            //var BookJson = JSON.stringify(Book);
             $.ajax({
                 url: url,
                 type: methodType,
-                dataType: 'json',
-                contentType: "application/json; charset=utf-8",
-                data: BookJson,
+                contentType: false,
+                processData: false,
+                //dataType: 'json',
+                //contentType: "application/json; charset=utf-8",
+                data: formData,
                 success: function (data) {
                     try {
                         debugger;
@@ -183,6 +203,7 @@
         authorRecord += "<td>" + record.bookPrice + "</td>";
         authorRecord += "<td>" + record.author.authorName + "</td>";
         authorRecord += "<td>" + record.isbn + "</td>";
+        authorRecord += "<td> <img src ='" + ServiceUrl + record.bookImagePath+"' height='100px' width='100px'/> </td>";
         authorRecord += "<td> <a href='#' onClick='OpenEditBookModal(" + record.bookId + ")' >Edit</a> | <a href='#' onClick='DeleteBook(" + record.bookId + ")' >Delete</a> </td>";
         authorRecord += "</tr>";
 

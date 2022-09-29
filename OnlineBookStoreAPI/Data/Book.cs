@@ -17,6 +17,10 @@ namespace OnlineBookStoreAPI.Data
         public Author Author { get; set; }
         public string ISBN { get; set; }
         public int AuthorId { get; set; }
+        public string BookImagePath { get; set; }
+        public int NumberOfBooks { get; set; }
+        public Language Language { get; set; }
+        public Publisher Publisher { get; set; }
 
     }
 }

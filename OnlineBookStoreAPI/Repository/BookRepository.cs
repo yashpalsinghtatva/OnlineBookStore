@@ -56,7 +56,7 @@ namespace OnlineBookStoreAPI.Repository
 
         public async Task<BookDTO> GetBookByIdAsync(int id)
         {
-            var book = await _dbContext.Books.Include(x=>x.Author).Where(x=>x.BookId == id).FirstOrDefaultAsync();
+            var book = await _dbContext.Books.AsNoTracking().Include(x=>x.Author).Where(x=>x.BookId == id).FirstOrDefaultAsync();
             return _mapper.Map<BookDTO>(book);
 
         }

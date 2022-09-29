@@ -12,7 +12,7 @@ namespace OnlineBookStoreAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorRepository _authorRepository;

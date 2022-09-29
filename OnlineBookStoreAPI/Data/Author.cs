@@ -8,7 +8,6 @@ namespace OnlineBookStoreAPI.Data
     {
         public int AuthorId { get; set; }
         public string AuthorName { get; set; }
-
         public List<Book> authorBooks { get; set; }
     }
 }

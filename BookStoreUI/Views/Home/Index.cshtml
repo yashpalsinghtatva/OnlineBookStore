@@ -43,14 +43,14 @@
                         <!-- Email input -->
                         <div class="form-outline mb-4">
                             <input type="email" id="txtEmail" class="form-control form-control-lg"
-                                   placeholder="Enter a valid email address" />
+                                   placeholder="Enter a valid email address" required />
                             @*<label class="form-label" for="txtEmail">Email address</label>*@
                         </div>
 
                         <!-- Password input -->
                         <div class="form-outline mb-3">
                             <input type="password" id="txtPassword" class="form-control form-control-lg"
-                                   placeholder="Enter password" />
+                                   placeholder="Enter password" required/>
                             @*<label class="form-label" for="txtPassword">Password</label>*@
                         </div>
 
@@ -136,7 +136,7 @@
                     }
                 },
                 error: function (e) {
-                    alert("Error in Login" + e.message);
+                    alert("Error in Login" + e.errorMessage);
                     console.log(e);
                 },
 

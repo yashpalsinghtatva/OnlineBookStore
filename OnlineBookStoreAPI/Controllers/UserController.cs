@@ -33,7 +33,7 @@ namespace OnlineBookStoreAPI.Controllers
 
             if (token == null)
             {
-                return Unauthorized();
+                return Unauthorized(new { errorMessage = "Invalid Email Or Password"});
             }
 
             return Ok(token);

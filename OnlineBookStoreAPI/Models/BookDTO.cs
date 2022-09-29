@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,6 +16,9 @@ namespace OnlineBookStoreAPI.Models
         public AuthorDTO Author { get; set; }
         public string ISBN { get; set; }
         public int AuthorId { get; set; }
+        public IFormFile BookImage { get; set; }
+        public string BookImagePath { get; set; }
+
 
     }
 }
