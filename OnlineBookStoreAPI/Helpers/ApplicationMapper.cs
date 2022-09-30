@@ -16,6 +16,10 @@ namespace OnlineBookStoreAPI.Helpers
             CreateMap<Book, BookDTO>().ReverseMap();
             CreateMap<UserType, UserTypeDTO>().ReverseMap();
             CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<Language, LanguageDTO>().ReverseMap();
+            CreateMap<Publisher, PublisherDTO>().ReverseMap();
+            CreateMap<Country, CountryDTO>().ReverseMap();
+            CreateMap<Address, AddressDTO>().ReverseMap();
         }
     }
 }

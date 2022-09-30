@@ -3,47 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineBookStoreAPI.Data;
 
 namespace OnlineBookStoreAPI.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    partial class BookStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20220929054507_BookChangeMigration")]
+    partial class BookChangeMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.29")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("OnlineBookStoreAPI.Data.Address", b =>
-                {
-                    b.Property<int>("AddressId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("AddressTitle")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CountryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PinCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AddressId");
-
-                    b.HasIndex("CountryId");
-
-                    b.ToTable("Address");
-                });
 
             modelBuilder.Entity("OnlineBookStoreAPI.Data.Author", b =>
                 {
@@ -111,21 +87,6 @@ namespace OnlineBookStoreAPI.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("OnlineBookStoreAPI.Data.Country", b =>
-                {
-                    b.Property<int>("CountryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CountryName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CountryId");
-
-                    b.ToTable("Countries");
-                });
-
             modelBuilder.Entity("OnlineBookStoreAPI.Data.Language", b =>
                 {
                     b.Property<int>("LanguageId")
@@ -141,73 +102,6 @@ namespace OnlineBookStoreAPI.Migrations
                     b.ToTable("Languages");
                 });
 
-            modelBuilder.Entity("OnlineBookStoreAPI.Data.Order", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ShippingMethodId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("AddressId");
-
-                    b.HasIndex("ShippingMethodId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("OnlineBookStoreAPI.Data.OrderBook", b =>
-                {
-                    b.Property<int>("OrderBookId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderBookId");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderBooks");
-                });
-
-            modelBuilder.Entity("OnlineBookStoreAPI.Data.OrderStatus", b =>
-                {
-                    b.Property<int>("OrderStatusId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("OrderStatusValue")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("OrderStatusId");
-
-                    b.ToTable("OrderStatuses");
-                });
-
             modelBuilder.Entity("OnlineBookStoreAPI.Data.Publisher", b =>
                 {
                     b.Property<int>("PublisherId")
@@ -221,21 +115,6 @@ namespace OnlineBookStoreAPI.Migrations
                     b.HasKey("PublisherId");
 
                     b.ToTable("Publishers");
-                });
-
-            modelBuilder.Entity("OnlineBookStoreAPI.Data.ShippingMethod", b =>
-                {
-                    b.Property<int>("ShippingMethodId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ShippingMethodName")
-                        .HasColumnType("int");
-
-                    b.HasKey("ShippingMethodId");
-
-                    b.ToTable("ShippingMethods");
                 });
 
             modelBuilder.Entity("OnlineBookStoreAPI.Data.User", b =>
@@ -282,13 +161,6 @@ namespace OnlineBookStoreAPI.Migrations
                     b.ToTable("UserTypes");
                 });
 
-            modelBuilder.Entity("OnlineBookStoreAPI.Data.Address", b =>
-                {
-                    b.HasOne("OnlineBookStoreAPI.Data.Country", "Country")
-                        .WithMany()
-                        .HasForeignKey("CountryId");
-                });
-
             modelBuilder.Entity("OnlineBookStoreAPI.Data.Book", b =>
                 {
                     b.HasOne("OnlineBookStoreAPI.Data.Author", "Author")
@@ -304,36 +176,6 @@ namespace OnlineBookStoreAPI.Migrations
                     b.HasOne("OnlineBookStoreAPI.Data.Publisher", "Publisher")
                         .WithMany("Books")
                         .HasForeignKey("PublisherId");
-                });
-
-            modelBuilder.Entity("OnlineBookStoreAPI.Data.Order", b =>
-                {
-                    b.HasOne("OnlineBookStoreAPI.Data.Address", "Address")
-                        .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.HasOne("OnlineBookStoreAPI.Data.ShippingMethod", "ShippingMethod")
-                        .WithMany()
-                        .HasForeignKey("ShippingMethodId");
-
-                    b.HasOne("OnlineBookStoreAPI.Data.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("OnlineBookStoreAPI.Data.OrderBook", b =>
-                {
-                    b.HasOne("OnlineBookStoreAPI.Data.Book", "Book")
-                        .WithMany("orderBooks")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineBookStoreAPI.Data.Order", "Order")
-                        .WithMany("OrderBooks")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("OnlineBookStoreAPI.Data.User", b =>

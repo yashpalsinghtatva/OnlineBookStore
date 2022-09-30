@@ -9,6 +9,6 @@ namespace OnlineBookStoreAPI.Models
     {
         public int PublisherId { get; set; }
         public string PublisherName { get; set; }
-        public List<BookDTO> Books { get; set; }
     }
 }
+ 

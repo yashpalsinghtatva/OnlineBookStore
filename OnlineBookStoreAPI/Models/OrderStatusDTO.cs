@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace OnlineBookStoreAPI.Models
 {
-    public class LanguageDTO
+    public class OrderStatusDTO
     {
-        public int LanguageId { get; set; }
-        public string LanguageName { get; set; }
+        public int OrderStatusId { get; set; }
+        public string OrderStatusValue { get; set; }
     }
 }

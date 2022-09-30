@@ -9,6 +9,10 @@
     <Compile Remove="Migrations\20220922092534_Initial.Designer.cs" />
     <Compile Remove="Migrations\20220926100348_AddedAuthenticationClasses.cs" />
     <Compile Remove="Migrations\20220926100348_AddedAuthenticationClasses.Designer.cs" />
+    <Compile Remove="Migrations\20220929073523_OrderMigration.cs" />
+    <Compile Remove="Migrations\20220929073523_OrderMigration.Designer.cs" />
+    <Compile Remove="Migrations\20220929073710_OrderMigration.cs" />
+    <Compile Remove="Migrations\20220929073710_OrderMigration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

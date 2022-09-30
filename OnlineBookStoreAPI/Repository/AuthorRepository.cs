@@ -22,8 +22,8 @@ namespace OnlineBookStoreAPI.Repository
         }
         public async Task<List<AuthorDTO>> GetAllAuthorAsync()
         {
-            var authors = await _dbContext.Authors.ToListAsync();
 
+            var authors = await _dbContext.Authors.ToListAsync();
             return _mapper.Map<List<AuthorDTO>>(authors);
         }
         public async Task<AuthorDTO> GetAuthorByIdAsync(int id)

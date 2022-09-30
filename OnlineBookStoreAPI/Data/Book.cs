@@ -21,6 +21,9 @@ namespace OnlineBookStoreAPI.Data
         public int NumberOfBooks { get; set; }
         public Language Language { get; set; }
         public Publisher Publisher { get; set; }
+        public int NumberofPages { get; set; }
+        public DateTime PublishDate { get; set; }
+        public List<OrderBook> orderBooks { get; set; }
 
     }
 }

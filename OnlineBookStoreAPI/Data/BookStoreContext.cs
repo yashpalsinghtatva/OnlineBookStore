@@ -19,5 +19,11 @@ namespace OnlineBookStoreAPI.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Publisher> Publishers{ get; set; }
+        public DbSet<Country> Countries{ get; set; }
+        public DbSet<Address> Addresses{ get; set; }
+        public DbSet<ShippingMethod> ShippingMethods{ get; set; }
+        public DbSet<OrderStatus> OrderStatuses{ get; set; }
+        public DbSet<Order> Orders{ get; set; }
+        public DbSet<OrderBook> OrderBooks{ get; set; }
     }
 }

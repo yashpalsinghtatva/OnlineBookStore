@@ -59,6 +59,9 @@ namespace OnlineBookStoreAPI
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ILanguageRepository, LanguageRepository>();
             services.AddTransient<IPublisherRepository, PublisherRepository>();
+            services.AddTransient<ICountryRepository, CountryRepository>();
+            services.AddTransient<IAddressRepository, AddressRepository>();
+            services.AddTransient<IShippingMethodRepository, ShippingMethodRepository>();
 
             services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(Configuration.GetConnectionString("BookStoreConnection")));
             services.AddAutoMapper(typeof(Startup));

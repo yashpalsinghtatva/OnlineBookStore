@@ -18,7 +18,11 @@ namespace OnlineBookStoreAPI.Models
         public int AuthorId { get; set; }
         public IFormFile BookImage { get; set; }
         public string BookImagePath { get; set; }
-
-
+        public LanguageDTO Language { get; set; }
+        public PublisherDTO Publisher { get; set; }
+        public int NumberofPages { get; set; }
+        public DateTime PublishDate { get; set; }
+        public int LanguageId { get; set; }
+        public int PublisherId { get; set; }
     }
 }
