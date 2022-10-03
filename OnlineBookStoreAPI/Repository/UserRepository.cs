@@ -71,7 +71,10 @@ namespace OnlineBookStoreAPI.Repository
             {
                 Subject = new ClaimsIdentity(new Claim[]
               {
-             new Claim(ClaimTypes.Name, user.UserName)
+             new Claim(ClaimTypes.Name, user.UserName),
+             new Claim("UserId", user.UserId.ToString()),
+                        new Claim("DisplayName", user.UserName),
+                        new Claim("Email", user.UserEmail)
               }),
                 Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)

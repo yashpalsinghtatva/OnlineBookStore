@@ -12,5 +12,6 @@ namespace OnlineBookStoreAPI.Models
         public string PinCode { get; set; }
         public string City { get; set; }
         public CountryDTO Country { get; set; }
+        public int CountryId { get; set; }
     }
 }

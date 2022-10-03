@@ -10,8 +10,8 @@ namespace OnlineBookStoreAPI.Repository
     {
         Task<List<OrderDTO>> GetAllOrdersAsync();
         Task<OrderDTO> GetOrderByIdAsync(int id);
-        Task<int> AddOrderAsync(OrderDTO countryDTO);
-        Task<int> UpdateOrderAsync(int countryId, OrderDTO countryDTO);
-        Task<int> DeleteOrderAsync(int countryId);
+        Task<int> AddOrderAsync(OrderDTO orderDTO);
+        Task<int> UpdateOrderAsync(int orderId, OrderDTO orderDTO);
+        Task<int> DeleteOrderAsync(int orderId);
     }
 }

@@ -19,15 +19,23 @@ namespace OnlineBookStoreAPI.Repository
             _dbContext = dbContext;
             _mapper = mapper;
         }
-        public async Task<int> AddOrderAsync(OrderDTO countryDTO)
+        public async Task<int> AddOrderAsync(OrderDTO orderDTO)
         {
-            throw new NotImplementedException();
-
+            var order = _mapper.Map<Order>(orderDTO);
+            _dbContext.Add(order);
+            await _dbContext.SaveChangesAsync();
+            return orderDTO.OrderId;
         }
 
-        Task<int> IOrderRepository.DeleteOrderAsync(int countryId)
+       public async Task<int> DeleteOrderAsync(int orderId)
         {
-            throw new NotImplementedException();
+            var order = new Order()
+            {
+                OrderId= orderId
+            };
+            _dbContext.Orders.Remove(order);
+            await _dbContext.SaveChangesAsync();
+            return orderId;
         }
 
         public async Task<List<OrderDTO>> GetAllOrdersAsync()
@@ -36,14 +44,20 @@ namespace OnlineBookStoreAPI.Repository
             return _mapper.Map<List<OrderDTO>>(orders);
         }
 
-        Task<OrderDTO> IOrderRepository.GetOrderByIdAsync(int id)
+        public async Task<OrderDTO> GetOrderByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var order = await _dbContext.Orders.Where(x => x.OrderId == id).FirstOrDefaultAsync();
+            return _mapper.Map<OrderDTO>(order);
         }
 
-        Task<int> IOrderRepository.UpdateOrderAsync(int countryId, OrderDTO countryDTO)
+        public async Task<int> UpdateOrderAsync(int orderId, OrderDTO orderDTO)
         {
-            throw new NotImplementedException();
+            var order = _mapper.Map<Order>(orderDTO);
+            order.OrderId = orderId;
+            _dbContext.Orders.Update(order);
+            await _dbContext.SaveChangesAsync();
+            return orderId;
+
         }
     }
 }

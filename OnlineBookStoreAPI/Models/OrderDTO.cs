@@ -11,7 +11,9 @@ namespace OnlineBookStoreAPI.Models
         public DateTime OrderDate { get; set; }
         public AddressDTO Address { get; set; }
         public ShippingMethodDTO ShippingMethod { get; set; }
+        public int ShippingMethodId { get; set; }
         public UserDTO User { get; set; }
+        public int UserId { get; set; }
 
     }
 }
